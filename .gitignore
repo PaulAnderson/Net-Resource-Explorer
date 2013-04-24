@@ -1,0 +1,9 @@
+.svn/
+obj/
+bin/
+*.suo
+*.user
+*.cache
+*.exe
+*.application
+
