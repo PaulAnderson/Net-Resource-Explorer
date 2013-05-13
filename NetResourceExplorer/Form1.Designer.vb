@@ -33,9 +33,7 @@ Partial Class frmNetResourceExplorer
         Me.Label3 = New System.Windows.Forms.Label()
         Me.pnlTop = New System.Windows.Forms.Panel()
         Me.btnEntryPoint = New System.Windows.Forms.Button()
-        Me.ListView1 = New System.Windows.Forms.ListView()
-        Me.Name = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.Type = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.lbResources = New System.Windows.Forms.ListBox()
         Me.pnlResources.SuspendLayout()
         Me.pnlTypes.SuspendLayout()
         Me.pnlModules.SuspendLayout()
@@ -66,8 +64,8 @@ Partial Class frmNetResourceExplorer
         'pnlResources
         '
         Me.pnlResources.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.pnlResources.Controls.Add(Me.ListView1)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.pnlResources.Controls.Add(Me.lbResources)
         Me.pnlResources.Controls.Add(Me.Label1)
         Me.pnlResources.Location = New System.Drawing.Point(12, 56)
         Me.pnlResources.Name = "pnlResources"
@@ -77,7 +75,7 @@ Partial Class frmNetResourceExplorer
         'pnlTypes
         '
         Me.pnlTypes.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.pnlTypes.Controls.Add(Me.lbTypes)
         Me.pnlTypes.Controls.Add(Me.Label2)
         Me.pnlTypes.Location = New System.Drawing.Point(12, 181)
@@ -109,7 +107,7 @@ Partial Class frmNetResourceExplorer
         'pnlModules
         '
         Me.pnlModules.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.pnlModules.Controls.Add(Me.lbModules)
         Me.pnlModules.Controls.Add(Me.Label3)
         Me.pnlModules.Location = New System.Drawing.Point(12, 306)
@@ -158,16 +156,14 @@ Partial Class frmNetResourceExplorer
         Me.btnEntryPoint.Text = "Execute Entry Point"
         Me.btnEntryPoint.UseVisualStyleBackColor = True
         '
-        'ListView1
+        'lbResources
         '
-        Me.ListView1.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.Name, Me.Type})
-        Me.ListView1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.ListView1.Location = New System.Drawing.Point(0, 16)
-        Me.ListView1.Name = "ListView1"
-        Me.ListView1.Size = New System.Drawing.Size(494, 103)
-        Me.ListView1.TabIndex = 3
-        Me.ListView1.UseCompatibleStateImageBehavior = False
-        Me.ListView1.View = System.Windows.Forms.View.Details
+        Me.lbResources.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lbResources.FormattingEnabled = True
+        Me.lbResources.Location = New System.Drawing.Point(0, 16)
+        Me.lbResources.Name = "lbResources"
+        Me.lbResources.Size = New System.Drawing.Size(494, 103)
+        Me.lbResources.TabIndex = 3
         '
         'frmNetResourceExplorer
         '
@@ -199,8 +195,6 @@ Partial Class frmNetResourceExplorer
     Friend WithEvents Label3 As System.Windows.Forms.Label
     Friend WithEvents pnlTop As System.Windows.Forms.Panel
     Friend WithEvents btnEntryPoint As System.Windows.Forms.Button
-    Friend WithEvents ListView1 As System.Windows.Forms.ListView
-    Friend WithEvents Name As System.Windows.Forms.ColumnHeader
-    Friend WithEvents Type As System.Windows.Forms.ColumnHeader
+    Friend WithEvents lbResources As System.Windows.Forms.ListBox
 
 End Class
