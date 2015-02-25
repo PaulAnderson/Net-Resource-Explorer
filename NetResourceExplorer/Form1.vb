@@ -15,19 +15,28 @@
 '  along with this program; if not, write to the Free Software
 '  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
+Imports System.Reflection
+
 Public Class frmNetResourceExplorer
 
     Private assembly As System.Reflection.Assembly
+    Private types As Dictionary(Of String, Type)
+
     Private Sub btnOpenAssembly_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnOpenAssembly.Click
         Dim dlg As New OpenFileDialog
         If dlg.ShowDialog() = Windows.Forms.DialogResult.OK Then
-
+            OpenAssembly(dlg.FileName)
+        End If
+    End Sub
+    Private Sub OpenAssembly(fileName As String)
+        Try
             Dim resources As String()
-            Dim types As IEnumerable(Of Type)
+            Dim loadedTypes As IEnumerable(Of Type)
             Dim typeNames As New List(Of String)
             Dim modules As System.Reflection.Module()
             Dim moduleNames As New List(Of String)
-            assembly = System.Reflection.Assembly.LoadFile(dlg.FileName)
+            types = New Dictionary(Of String, Type)
+            assembly = System.Reflection.Assembly.LoadFile(fileName)
 
             resources = assembly.GetManifestResourceNames()
             Array.Sort(resources)
@@ -38,16 +47,21 @@ Public Class frmNetResourceExplorer
                 moduleNames.Add([module].Name)
             Next ([module])
             lbModules.DataSource = moduleNames
-
-            types = GetLoadableTypes(assembly)
-            For Each t As Type In types
-                typeNames.Add(t.Name)
+            loadedTypes = GetLoadableTypes(assembly)
+            For Each t As Type In loadedTypes
+                types.Add(t.Name, t)
+                Dim typeNode As TreeNode = tvTypes.Nodes.Add(t.Name, t.Name)
+                typeNode.Tag = "T"
+                For Each method As System.Reflection.MethodInfo In t.GetMethods()
+                    typeNode.Nodes.Add(method.Name, method.Name).Tag = "M"
+                Next
             Next
-            lbTypes.DataSource = typeNames
 
-        End If
-
+        Catch ex As BadImageFormatException
+            MessageBox.Show("The file image of the dynamic link library (DLL) or executable program is invalid." + vbCrLf + "Check that you have selected a valid .net assembly.", My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
+
     Public Shared Function GetLoadableTypes(ByVal assembly As System.Reflection.Assembly) As IEnumerable(Of Type)
         Try
             Return assembly.GetTypes
@@ -61,13 +75,70 @@ Public Class frmNetResourceExplorer
     End Sub
 
     Private Sub btnEntryPoint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnEntryPoint.Click
-        Dim methodInfo As System.Reflection.MethodInfo = assembly.EntryPoint
+        Console.WriteLine("1")
+        If assembly Is Nothing Then
+            MessageBox.Show("No assembly has been loaded. Can't execute entry point.", My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        ElseIf assembly.EntryPoint Is Nothing Then
+            MessageBox.Show("The loaded assembly has no entry point.", My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        Else
+            Dim methodInfo As System.Reflection.MethodInfo = assembly.EntryPoint
 
-        Dim result As Object
-        Dim parameters As Reflection.ParameterInfo() = methodInfo.GetParameters()
-        'Dim classInstance As Object = Activator.CreateInstance(t, null)
-        Dim args As String() = New String() {"test123"}
-        Dim parametersArray As Object = New Object() {args}
-        result = methodInfo.Invoke(methodInfo, parametersArray)
+            Dim result As Object
+            Dim parameters As Reflection.ParameterInfo() = methodInfo.GetParameters()
+            'Dim classInstance As Object = Activator.CreateInstance(t, null)
+            Dim args As String() = New String() {} '{"test123"}
+            Dim parametersArray As Object = New Object() {args}
+            result = methodInfo.Invoke(methodInfo, Nothing)
+        End If
+    End Sub
+
+    Private Sub tsbExecuteMethod_Click(sender As System.Object, e As System.EventArgs) Handles tsbExecuteMethod.Click
+
+        If tvTypes.SelectedNode IsNot Nothing Then
+            If tvTypes.SelectedNode.Tag = "M" Then
+                Dim methodName As String = tvTypes.SelectedNode.Text
+                Dim typeName As String = tvTypes.SelectedNode.Parent.Text
+                Dim t As Type = types(typeName)
+                Dim instance As Object
+                Try
+                    instance = System.Activator.CreateInstance(t)
+                Catch ex As MissingMethodException
+                    'get constructors. If none, continue to try to call method as static
+                    For Each constructor As ConstructorInfo In t.GetConstructors()
+                        MessageBox.Show(constructor.GetParameters.Count)
+                    Next
+                End Try
+                Dim methodInfo As System.Reflection.MethodInfo = t.GetMethod(methodName)
+                Dim returnValue As Object
+                Try
+                    returnValue = methodInfo.Invoke(instance, Nothing)
+                    If returnValue IsNot Nothing Then
+                        MessageBox.Show(returnValue.ToString())
+                    Else
+                        MessageBox.Show("No return value")
+                    End If
+                Catch ex As System.Reflection.TargetInvocationException
+                    If ex.InnerException IsNot Nothing Then
+                        MessageBox.Show("Exception Encountered: " + vbCrLf + ex.InnerException.ToString)
+                    End If
+                Catch ex As System.Reflection.TargetParameterCountException
+                    MessageBox.Show("Exception Encountered: TargetParameterCountException.") 'todo: get and provide params
+                End Try
+            Else
+                MessageBox.Show("You have selected a type. Expand the type node to see available methods.")
+            End If
+        Else
+            MessageBox.Show("You must select  method to execute.")
+        End If
+    End Sub
+    Private Sub DisplayObject(o As Object)
+        'todo
+    End Sub
+
+    Private Sub btnShowConsole_Click(sender As System.Object, e As System.EventArgs) Handles btnShowConsole.Click
+        If Not AttachConsole(ATTACH_PARENT_PROCESS) Then
+            AllocConsole()  '
+        End If
+        Console.WriteLine(String.Format("{0} Console opened.", My.Application.Info.Title))
     End Sub
 End Class
