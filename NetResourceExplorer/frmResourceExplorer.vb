@@ -167,4 +167,41 @@ Public Class frmResourceExplorer
             result = methodInfo.Invoke(methodInfo, Nothing)
         End If
     End Sub
+
+    Private Sub tsbFind_Click(sender As System.Object, e As System.EventArgs) Handles tsbFind.Click
+        Dim searchString As String = InputBox("Search for type/method", "Search", "")
+        If Not String.IsNullOrWhiteSpace(searchString) Then
+            tvTypes.CollapseAll()
+            Dim searchResults As List(Of TreeNode)
+            searchResults = FindInNodes(searchString.ToLower(), tvTypes.Nodes)
+            MessageBox.Show(String.Format("{0} Results", searchResults.Count))
+        End If
+    End Sub
+
+    'Recursive search.expands nodes containing searchString in text, returns matching nodes
+    Private Function FindInNodes(searchString As String, nodes As TreeNodeCollection) As List(Of TreeNode)
+        If nodes Is Nothing Then Return Nothing
+
+        Dim results As New List(Of TreeNode)
+
+        For Each node As TreeNode In nodes
+            If node.Text IsNot Nothing AndAlso node.Text.ToLower.Contains(searchString) Then
+                results.Add(node)
+                node.ForeColor = Color.Red
+                node.BackColor = Color.Yellow
+                node.EnsureVisible()
+            Else
+                node.ForeColor = Color.Black
+                node.BackColor = Color.White
+            End If
+            Dim subResults As List(Of TreeNode) = FindInNodes(searchString, node.Nodes)
+            If subResults IsNot Nothing Then
+                For Each subresult As TreeNode In subResults
+                    results.Add(subresult)
+                Next
+            End If
+        Next
+
+        Return results
+    End Function
 End Class

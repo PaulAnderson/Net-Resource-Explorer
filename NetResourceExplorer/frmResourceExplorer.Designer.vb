@@ -39,6 +39,7 @@ Partial Class frmResourceExplorer
         Me.tsbOpenAssembly = New System.Windows.Forms.ToolStripButton()
         Me.tsbEntryPoint = New System.Windows.Forms.ToolStripButton()
         Me.tsbConsole = New System.Windows.Forms.ToolStripButton()
+        Me.tsbFind = New System.Windows.Forms.ToolStripButton()
         Me.pnlResources.SuspendLayout()
         Me.pnlTypes.SuspendLayout()
         Me.pnlModules.SuspendLayout()
@@ -146,11 +147,11 @@ Partial Class frmResourceExplorer
         '
         'ToolStrip1
         '
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tsbExecuteMethod})
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tsbExecuteMethod, Me.tsbFind})
         Me.ToolStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow
         Me.ToolStrip1.Location = New System.Drawing.Point(0, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(65, 48)
+        Me.ToolStrip1.Size = New System.Drawing.Size(65, 85)
         Me.ToolStrip1.TabIndex = 0
         Me.ToolStrip1.Text = "ToolStrip1"
         '
@@ -169,7 +170,7 @@ Partial Class frmResourceExplorer
         Me.ToolStrip2.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow
         Me.ToolStrip2.Location = New System.Drawing.Point(0, 0)
         Me.ToolStrip2.Name = "ToolStrip2"
-        Me.ToolStrip2.Size = New System.Drawing.Size(577, 25)
+        Me.ToolStrip2.Size = New System.Drawing.Size(574, 25)
         Me.ToolStrip2.TabIndex = 7
         Me.ToolStrip2.Text = "ToolStrip2"
         '
@@ -197,12 +198,21 @@ Partial Class frmResourceExplorer
         Me.tsbConsole.Size = New System.Drawing.Size(69, 22)
         Me.tsbConsole.Text = "Console"
         '
+        'tsbFind
+        '
+        Me.tsbFind.Image = CType(resources.GetObject("tsbFind.Image"), System.Drawing.Image)
+        Me.tsbFind.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tsbFind.Name = "tsbFind"
+        Me.tsbFind.Size = New System.Drawing.Size(63, 34)
+        Me.tsbFind.Text = "Find"
+        Me.tsbFind.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        '
         'frmResourceExplorer
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(577, 404)
+        Me.ClientSize = New System.Drawing.Size(574, 403)
         Me.Controls.Add(Me.ToolStrip2)
         Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.pnlModules)
@@ -239,5 +249,6 @@ Partial Class frmResourceExplorer
     Friend WithEvents tsbOpenAssembly As System.Windows.Forms.ToolStripButton
     Friend WithEvents tsbEntryPoint As System.Windows.Forms.ToolStripButton
     Friend WithEvents tsbConsole As System.Windows.Forms.ToolStripButton
+    Friend WithEvents tsbFind As System.Windows.Forms.ToolStripButton
 
 End Class
