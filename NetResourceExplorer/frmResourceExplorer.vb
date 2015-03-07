@@ -78,6 +78,8 @@ Public Class frmResourceExplorer
             Next ([module])
             lbModules.DataSource = moduleNames
             loadedTypes = GetLoadableTypes(assembly)
+            tvTypes.Nodes.Clear()
+            tvTypes.Visible = False
             For Each t As Type In loadedTypes
                 types.Add(t.Name, t)
                 Dim typeNode As TreeNode = tvTypes.Nodes.Add(t.Name, t.Name)
@@ -86,6 +88,7 @@ Public Class frmResourceExplorer
                     typeNode.Nodes.Add(method.Name, method.Name).Tag = "M"
                 Next
             Next
+            tvTypes.Visible = True
 
         Catch ex As BadImageFormatException
             MessageBox.Show("The file image of the dynamic link library (DLL) or executable program is invalid." + vbCrLf + "Check that you have selected a valid .net assembly.", My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -117,7 +120,16 @@ Public Class frmResourceExplorer
                 Try
                     returnValue = methodInfo.Invoke(instance, Nothing)
                     If returnValue IsNot Nothing Then
-                        MessageBox.Show(returnValue.ToString())
+                        If TypeOf returnValue Is Form Then
+                            If MessageBox.Show(returnValue.ToString() + vbCrLf + vbCrLf + "Returned type of a form. Do you want to show it?", "Method Result", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
+                                CType(returnValue, Form).Show()
+                            Else
+                                'do nothing
+                            End If
+                        Else
+                            MessageBox.Show(returnValue.ToString())
+                        End If
+
                     Else
                         MessageBox.Show("No return value")
                     End If
@@ -149,6 +161,9 @@ Public Class frmResourceExplorer
             'Dim classInstance As Object = Activator.CreateInstance(t, null)
             Dim args As String() = New String() {} '{"test123"}
             Dim parametersArray As Object = New Object() {args}
+            If parameters IsNot Nothing AndAlso parameters.Count > 0 AndAlso parameters(0).Name = "Args" Then
+                result = methodInfo.Invoke(methodInfo, parametersArray)
+            End If
             result = methodInfo.Invoke(methodInfo, Nothing)
         End If
     End Sub
