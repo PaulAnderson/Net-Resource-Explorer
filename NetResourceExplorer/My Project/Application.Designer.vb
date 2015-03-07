@@ -32,7 +32,7 @@ Namespace My
         
         <Global.System.Diagnostics.DebuggerStepThroughAttribute()>  _
         Protected Overrides Sub OnCreateMainForm()
-            Me.MainForm = Global.NetResourceExplorer.frmNetResourceExplorer
+            Me.MainForm = Global.NetResourceExplorer.frmResourceExplorer
         End Sub
     End Class
 End Namespace

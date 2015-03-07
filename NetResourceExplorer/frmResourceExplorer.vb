@@ -17,12 +17,42 @@
 
 Imports System.Reflection
 
-Public Class frmNetResourceExplorer
+Public Class frmResourceExplorer
 
     Private assembly As System.Reflection.Assembly
     Private types As Dictionary(Of String, Type)
 
-    Private Sub btnOpenAssembly_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnOpenAssembly.Click
+    Public Shared Function GetLoadableTypes(ByVal assembly As System.Reflection.Assembly) As IEnumerable(Of Type)
+        Try
+            Return assembly.GetTypes
+        Catch ex As Reflection.ReflectionTypeLoadException
+            Return ex.Types.Where(Function(t) t IsNot Nothing)
+        End Try
+    End Function
+    Private Sub lbResources_SelectedValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        'Dim info As System.Reflection.ManifestResourceInfo = assembly.GetManifestResourceInfo(lbResources.SelectedValue)
+        'todo
+    End Sub
+
+    Private Sub tsbExecuteMethod_Click(sender As System.Object, e As System.EventArgs) Handles tsbExecuteMethod.Click
+        ExecuteSelectedMethod()
+    End Sub
+    Private Sub DisplayObject(o As Object)
+        'todo
+    End Sub
+
+    Private Sub tsbOpenAssembly_Click(sender As System.Object, e As System.EventArgs) Handles tsbOpenAssembly.Click
+        OpenAssembly()
+    End Sub
+
+    Private Sub tsbEntryPoint_Click(sender As System.Object, e As System.EventArgs) Handles tsbEntryPoint.Click
+        ExecuteEntryPoint()
+    End Sub
+
+    Private Sub tsbConsole_Click(sender As System.Object, e As System.EventArgs) Handles tsbConsole.Click
+        OpenConsole()
+    End Sub
+    Private Sub OpenAssembly()
         Dim dlg As New OpenFileDialog
         If dlg.ShowDialog() = Windows.Forms.DialogResult.OK Then
             OpenAssembly(dlg.FileName)
@@ -61,39 +91,13 @@ Public Class frmNetResourceExplorer
             MessageBox.Show("The file image of the dynamic link library (DLL) or executable program is invalid." + vbCrLf + "Check that you have selected a valid .net assembly.", My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
-
-    Public Shared Function GetLoadableTypes(ByVal assembly As System.Reflection.Assembly) As IEnumerable(Of Type)
-        Try
-            Return assembly.GetTypes
-        Catch ex As Reflection.ReflectionTypeLoadException
-            Return ex.Types.Where(Function(t) t IsNot Nothing)
-        End Try
-    End Function
-    Private Sub lbResources_SelectedValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        Dim info As System.Reflection.ManifestResourceInfo = assembly.GetManifestResourceInfo(lbResources.SelectedValue)
-
-    End Sub
-
-    Private Sub btnEntryPoint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnEntryPoint.Click
-        Console.WriteLine("1")
-        If assembly Is Nothing Then
-            MessageBox.Show("No assembly has been loaded. Can't execute entry point.", My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-        ElseIf assembly.EntryPoint Is Nothing Then
-            MessageBox.Show("The loaded assembly has no entry point.", My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-        Else
-            Dim methodInfo As System.Reflection.MethodInfo = assembly.EntryPoint
-
-            Dim result As Object
-            Dim parameters As Reflection.ParameterInfo() = methodInfo.GetParameters()
-            'Dim classInstance As Object = Activator.CreateInstance(t, null)
-            Dim args As String() = New String() {} '{"test123"}
-            Dim parametersArray As Object = New Object() {args}
-            result = methodInfo.Invoke(methodInfo, Nothing)
+    Private Sub OpenConsole()
+        If Not AttachConsole(ATTACH_PARENT_PROCESS) Then
+            AllocConsole()  '
         End If
+        Console.WriteLine(String.Format("{0} Console opened.", My.Application.Info.Title))
     End Sub
-
-    Private Sub tsbExecuteMethod_Click(sender As System.Object, e As System.EventArgs) Handles tsbExecuteMethod.Click
-
+    Private Sub ExecuteSelectedMethod()
         If tvTypes.SelectedNode IsNot Nothing Then
             If tvTypes.SelectedNode.Tag = "M" Then
                 Dim methodName As String = tvTypes.SelectedNode.Text
@@ -131,14 +135,21 @@ Public Class frmNetResourceExplorer
             MessageBox.Show("You must select  method to execute.")
         End If
     End Sub
-    Private Sub DisplayObject(o As Object)
-        'todo
-    End Sub
+    Private Sub ExecuteEntryPoint()
+        Console.WriteLine("1")
+        If assembly Is Nothing Then
+            MessageBox.Show("No assembly has been loaded. Can't execute entry point.", My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        ElseIf assembly.EntryPoint Is Nothing Then
+            MessageBox.Show("The loaded assembly has no entry point.", My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        Else
+            Dim methodInfo As System.Reflection.MethodInfo = assembly.EntryPoint
 
-    Private Sub btnShowConsole_Click(sender As System.Object, e As System.EventArgs) Handles btnShowConsole.Click
-        If Not AttachConsole(ATTACH_PARENT_PROCESS) Then
-            AllocConsole()  '
+            Dim result As Object
+            Dim parameters As Reflection.ParameterInfo() = methodInfo.GetParameters()
+            'Dim classInstance As Object = Activator.CreateInstance(t, null)
+            Dim args As String() = New String() {} '{"test123"}
+            Dim parametersArray As Object = New Object() {args}
+            result = methodInfo.Invoke(methodInfo, Nothing)
         End If
-        Console.WriteLine(String.Format("{0} Console opened.", My.Application.Info.Title))
     End Sub
 End Class
