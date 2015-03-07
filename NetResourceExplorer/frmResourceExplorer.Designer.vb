@@ -151,16 +151,17 @@ Partial Class frmResourceExplorer
         Me.ToolStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow
         Me.ToolStrip1.Location = New System.Drawing.Point(0, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(65, 85)
+        Me.ToolStrip1.Size = New System.Drawing.Size(65, 128)
         Me.ToolStrip1.TabIndex = 0
         Me.ToolStrip1.Text = "ToolStrip1"
         '
         'tsbExecuteMethod
         '
+        Me.tsbExecuteMethod.Font = New System.Drawing.Font("Tahoma", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tsbExecuteMethod.Image = CType(resources.GetObject("tsbExecuteMethod.Image"), System.Drawing.Image)
         Me.tsbExecuteMethod.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsbExecuteMethod.Name = "tsbExecuteMethod"
-        Me.tsbExecuteMethod.Size = New System.Drawing.Size(63, 34)
+        Me.tsbExecuteMethod.Size = New System.Drawing.Size(63, 38)
         Me.tsbExecuteMethod.Text = "Execute"
         Me.tsbExecuteMethod.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
@@ -200,10 +201,12 @@ Partial Class frmResourceExplorer
         '
         'tsbFind
         '
-        Me.tsbFind.Image = CType(resources.GetObject("tsbFind.Image"), System.Drawing.Image)
+        Me.tsbFind.Font = New System.Drawing.Font("Tahoma", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tsbFind.Image = Global.NetResourceExplorer.My.Resources.Resources.Search_s
+        Me.tsbFind.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.tsbFind.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsbFind.Name = "tsbFind"
-        Me.tsbFind.Size = New System.Drawing.Size(63, 34)
+        Me.tsbFind.Size = New System.Drawing.Size(63, 54)
         Me.tsbFind.Text = "Find"
         Me.tsbFind.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
