@@ -35,11 +35,13 @@ Partial Class frmResourceExplorer
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.tsbExecuteMethod = New System.Windows.Forms.ToolStripButton()
+        Me.tsbFind = New System.Windows.Forms.ToolStripButton()
         Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
         Me.tsbOpenAssembly = New System.Windows.Forms.ToolStripButton()
         Me.tsbEntryPoint = New System.Windows.Forms.ToolStripButton()
         Me.tsbConsole = New System.Windows.Forms.ToolStripButton()
-        Me.tsbFind = New System.Windows.Forms.ToolStripButton()
+        Me.lblRuntimeVersion = New System.Windows.Forms.Label()
+        Me.txtRuntimeVersion = New System.Windows.Forms.TextBox()
         Me.pnlResources.SuspendLayout()
         Me.pnlTypes.SuspendLayout()
         Me.pnlModules.SuspendLayout()
@@ -151,7 +153,7 @@ Partial Class frmResourceExplorer
         Me.ToolStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow
         Me.ToolStrip1.Location = New System.Drawing.Point(0, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(65, 128)
+        Me.ToolStrip1.Size = New System.Drawing.Size(65, 109)
         Me.ToolStrip1.TabIndex = 0
         Me.ToolStrip1.Text = "ToolStrip1"
         '
@@ -165,6 +167,17 @@ Partial Class frmResourceExplorer
         Me.tsbExecuteMethod.Text = "Execute"
         Me.tsbExecuteMethod.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
+        'tsbFind
+        '
+        Me.tsbFind.Font = New System.Drawing.Font("Tahoma", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tsbFind.Image = Global.NetResourceExplorer.My.Resources.Resources.Search_s
+        Me.tsbFind.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.tsbFind.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tsbFind.Name = "tsbFind"
+        Me.tsbFind.Size = New System.Drawing.Size(63, 54)
+        Me.tsbFind.Text = "Find"
+        Me.tsbFind.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        '
         'ToolStrip2
         '
         Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tsbOpenAssembly, Me.tsbEntryPoint, Me.tsbConsole})
@@ -177,45 +190,56 @@ Partial Class frmResourceExplorer
         '
         'tsbOpenAssembly
         '
+        Me.tsbOpenAssembly.Font = New System.Drawing.Font("Tahoma", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tsbOpenAssembly.Image = CType(resources.GetObject("tsbOpenAssembly.Image"), System.Drawing.Image)
         Me.tsbOpenAssembly.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsbOpenAssembly.Name = "tsbOpenAssembly"
-        Me.tsbOpenAssembly.Size = New System.Drawing.Size(111, 22)
+        Me.tsbOpenAssembly.Size = New System.Drawing.Size(130, 22)
         Me.tsbOpenAssembly.Text = "Open Assembly"
         '
         'tsbEntryPoint
         '
+        Me.tsbEntryPoint.Font = New System.Drawing.Font("Tahoma", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tsbEntryPoint.Image = CType(resources.GetObject("tsbEntryPoint.Image"), System.Drawing.Image)
         Me.tsbEntryPoint.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsbEntryPoint.Name = "tsbEntryPoint"
-        Me.tsbEntryPoint.Size = New System.Drawing.Size(88, 22)
+        Me.tsbEntryPoint.Size = New System.Drawing.Size(98, 22)
         Me.tsbEntryPoint.Text = "Entry Point"
         '
         'tsbConsole
         '
+        Me.tsbConsole.Font = New System.Drawing.Font("Tahoma", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tsbConsole.Image = CType(resources.GetObject("tsbConsole.Image"), System.Drawing.Image)
         Me.tsbConsole.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsbConsole.Name = "tsbConsole"
-        Me.tsbConsole.Size = New System.Drawing.Size(69, 22)
+        Me.tsbConsole.Size = New System.Drawing.Size(78, 22)
         Me.tsbConsole.Text = "Console"
         '
-        'tsbFind
+        'lblRuntimeVersion
         '
-        Me.tsbFind.Font = New System.Drawing.Font("Tahoma", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.tsbFind.Image = Global.NetResourceExplorer.My.Resources.Resources.Search_s
-        Me.tsbFind.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
-        Me.tsbFind.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.tsbFind.Name = "tsbFind"
-        Me.tsbFind.Size = New System.Drawing.Size(63, 54)
-        Me.tsbFind.Text = "Find"
-        Me.tsbFind.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        Me.lblRuntimeVersion.AutoSize = True
+        Me.lblRuntimeVersion.Location = New System.Drawing.Point(9, 406)
+        Me.lblRuntimeVersion.Name = "lblRuntimeVersion"
+        Me.lblRuntimeVersion.Size = New System.Drawing.Size(86, 13)
+        Me.lblRuntimeVersion.TabIndex = 8
+        Me.lblRuntimeVersion.Text = "Runtime version:"
+        '
+        'txtRuntimeVersion
+        '
+        Me.txtRuntimeVersion.Location = New System.Drawing.Point(101, 403)
+        Me.txtRuntimeVersion.Name = "txtRuntimeVersion"
+        Me.txtRuntimeVersion.ReadOnly = True
+        Me.txtRuntimeVersion.Size = New System.Drawing.Size(100, 20)
+        Me.txtRuntimeVersion.TabIndex = 9
         '
         'frmResourceExplorer
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(574, 403)
+        Me.ClientSize = New System.Drawing.Size(574, 441)
+        Me.Controls.Add(Me.txtRuntimeVersion)
+        Me.Controls.Add(Me.lblRuntimeVersion)
         Me.Controls.Add(Me.ToolStrip2)
         Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.pnlModules)
@@ -253,5 +277,7 @@ Partial Class frmResourceExplorer
     Friend WithEvents tsbEntryPoint As System.Windows.Forms.ToolStripButton
     Friend WithEvents tsbConsole As System.Windows.Forms.ToolStripButton
     Friend WithEvents tsbFind As System.Windows.Forms.ToolStripButton
+    Friend WithEvents lblRuntimeVersion As System.Windows.Forms.Label
+    Friend WithEvents txtRuntimeVersion As System.Windows.Forms.TextBox
 
 End Class

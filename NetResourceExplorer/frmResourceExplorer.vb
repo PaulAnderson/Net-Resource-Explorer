@@ -67,6 +67,7 @@ Public Class frmResourceExplorer
             Dim moduleNames As New List(Of String)
             types = New Dictionary(Of String, Type)
             assembly = System.Reflection.Assembly.LoadFile(fileName)
+            txtRuntimeVersion.Text = assembly.ImageRuntimeVersion
 
             resources = assembly.GetManifestResourceNames()
             Array.Sort(resources)
